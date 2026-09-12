@@ -1,0 +1,385 @@
+﻿<Window x:Class="VeloxOptiSL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:VeloxOptiSL"
+        xmlns:controls="clr-namespace:VeloxOptiSL.Controls"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="VeloxOpti SL" Height="930" Width="1093"
+        MinWidth="800" MinHeight="750"
+        Background="#1E1E1E" Foreground="#FFFFFF"
+        WindowStyle="None" AllowsTransparency="False">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="32" 
+                            ResizeBorderThickness="6" 
+                            UseAeroCaptionButtons="False"/>
+    </shell:WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <!-- Modern Green Glow Progress Bar Style -->
+        <Style x:Key="ModernProgressBar" TargetType="ProgressBar">
+            <Setter Property="Height" Value="14"/>
+            <Setter Property="Background" Value="#18181B"/>
+            <Setter Property="BorderBrush" Value="#27272A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid x:Name="TemplateRoot">
+                            <Border CornerRadius="4" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="{x:Static Slider.DecreaseLarge}">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border CornerRadius="3" Background="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=Foreground}">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=Foreground.(SolidColorBrush.Color)}" BlurRadius="8" ShadowDepth="0" Opacity="0.6"/>
+                                                    </Border.Effect>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Dark Theme Styles -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3F3F46"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <!-- ================= MAIN ROOT GRID ================= -->
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- 0: Custom Title Bar -->
+            <RowDefinition Height="Auto"/>
+            <!-- 1: Header Title -->
+            <RowDefinition Height="Auto"/>
+            <!-- 2: Target Viewer Bar -->
+            <RowDefinition Height="Auto"/>
+            <!-- 3: Performance Presets -->
+            <RowDefinition Height="*"/>
+            <!-- 4: Main Split Content Area -->
+            <RowDefinition Height="Auto"/>
+            <!-- 5: Launch Button -->
+            <RowDefinition Height="Auto"/>
+            <!-- 6: Event Log Console -->
+            <RowDefinition Height="Auto"/>
+            <!-- 7: Crash Observer Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- ================= ROW 0: CUSTOM TITLE BAR ================= -->
+        <controls:CustomTitleBar Grid.Row="0" Margin="-12,-12,-12,10"/>
+
+        <!-- ================= ROW 1: HEADER TITLE ================= -->
+        <TextBlock Grid.Row="1" Text="⚡VeloxOpti SL Dashboard" FontSize="18" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,10"/>
+
+        <!-- ================= ROW 2: TARGET VIEWER BAR ================= -->
+        <Border Grid.Row="2" Background="#252526" CornerRadius="5" Padding="10" Margin="0,0,0,10" BorderBrush="#333337" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="TARGET VIEWER:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#007ACC"/>
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="85"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TxtExePath" Grid.Column="0" Height="28" VerticalContentAlignment="Center"
+                             Text="C:\Program Files\Firestorm-Releasesx64\Firestorm-x64.exe"
+                             Background="#333337" Foreground="White" BorderBrush="#555555" Padding="5,0"/>
+                    <Button x:Name="BtnBrowseExe" Grid.Column="1" Content="Browse..." Height="28" Margin="8,0,0,0" Click="BtnBrowseExe_Click"/>
+                </Grid>
+
+
+                <!-- <Button Grid.Column="2" Content=" ⚙ " Width="32" Height="28" Margin="8,0,0,0" ToolTip="Advanced Settings"/> -->
+
+            </Grid>
+        </Border>
+
+        <!-- ================= ROW 3: PERFORMANCE PRESETS ================= -->
+        <Border Grid.Row="3" Background="#252526" CornerRadius="5" Padding="12" Margin="0,0,0,10" BorderBrush="#333337" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="PERFORMANCE PRESETS" FontWeight="Bold" FontSize="12" Foreground="#858585" Margin="0,0,0,8"/>
+                <UniformGrid Columns="3" Height="50">
+                    <Button Margin="0,0,6,0" Background="#2D2D30" Click="BtnPresetLow_Click">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="⚡ LOW-END / LAPTOP" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" Foreground="#4EC9B0"/>
+                            <TextBlock Text="(Max FPS Uplift)" HorizontalAlignment="Center" FontSize="10" Foreground="#858585"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="3,0" Background="#2D2D30" Click="BtnPresetBalanced_Click">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="⚖ MID-RANGE BALANCED" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" Foreground="#DCDCAA"/>
+                            <TextBlock Text="(Standard Play)" HorizontalAlignment="Center" FontSize="10" Foreground="#858585"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="6,0,0,0" Background="#2D2D30" Click="BtnPresetHigh_Click">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="🚀 HIGH-END SMOOTHNESS" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" Foreground="#569CD6"/>
+                            <TextBlock Text="(Frametime Lock)" HorizontalAlignment="Center" FontSize="10" Foreground="#858585"/>
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+            </StackPanel>
+        </Border>
+
+        <!-- ================= ROW 4: SPLIT CONTENT AREA ================= -->
+        <Grid Grid.Row="4" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT COLUMN: Proximity & Crowd Controls -->
+            <Border Grid.Column="0" Background="#252526" CornerRadius="5" Padding="12" Margin="0,0,6,0" BorderBrush="#333337" BorderThickness="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="PROXIMITY &amp; CROWD OPTIMIZATION" FontWeight="Bold" FontSize="12" Foreground="#858585" Margin="0,0,0,12"/>
+
+                        <!-- Setting 1: Full 3D Avatar Cap -->
+                        <TextBlock Text="Full 3D Avatar Cap (Proximity Bubble)" Margin="0,0,0,3"/>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="SldRenderAvatars" Minimum="1" Maximum="30" Value="4" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding ElementName=SldRenderAvatars, Path=Value}" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Setting 2: Draw Distance -->
+                        <TextBlock Text="Draw Distance (Meters)" Margin="0,0,0,3"/>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="45"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="SldDrawDistance" Minimum="16" Maximum="256" Value="48" TickFrequency="8" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding ElementName=SldDrawDistance, Path=Value, StringFormat={}{0}m}" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Setting 3: ARC -->
+                        <TextBlock Text="Avatar Complexity Ceiling (ARC)" Margin="0,0,0,3"/>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="65"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="SldArc" Minimum="10000" Maximum="350000" Value="50000" TickFrequency="5000" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding ElementName=SldArc, Path=Value, StringFormat={}{0:N0}}" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Setting 4: LOD -->
+                        <TextBlock Text="Mesh Level of Detail (LOD Factor)" Margin="0,0,0,3"/>
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="45"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="SldLod" Minimum="0.5" Maximum="2.0" Value="1.15" TickFrequency="0.05" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding ElementName=SldLod, Path=Value, StringFormat={}{0:F2}}" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Checkboxes -->
+                        <CheckBox x:Name="ChkJellyDoll" Content="Auto-JellyDoll Ultra Complexity" IsChecked="True" Margin="0,0,0,8" Foreground="White"/>
+                        <CheckBox x:Name="ChkImpostors" Content="Enable 2D Proximity Impostors" IsChecked="True" Margin="0,0,0,15" Foreground="White"/>
+
+                        <!-- Hover Inspector Panel -->
+                        <TextBlock Text="HOVER INSPECTOR &amp; EXPLANATION PANEL" FontWeight="Bold" FontSize="12" Foreground="#858585" Margin="0,0,0,8"/>
+                        <Border Background="#1E1E1E" CornerRadius="4" Padding="10" Margin="0,0,0,12" BorderBrush="#3F3F46" BorderThickness="1" Height="75">
+                            <StackPanel VerticalAlignment="Top">
+                                <TextBlock x:Name="TxtInspectorTitle" Text="ℹ️ Inspector Ready" FontWeight="Bold" Foreground="#4EC9B0" Margin="0,0,0,4"/>
+                                <TextBlock x:Name="TxtInspectorDescription" Text="Hover over any setting to see what it does in plain English." TextWrapping="Wrap" FontSize="11" Foreground="#AAAAAA" Height="36"/>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- RIGHT COLUMN: Inspector, Cache, Process Priority, Metrics & CPU/RAM Telemetry Console -->
+            <Border Grid.Column="1" Background="#252526" CornerRadius="5" Padding="12" Margin="6,0,0,0" BorderBrush="#333337" BorderThickness="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <!-- Clear Viewer Cache -->
+                        <Button x:Name="BtnClearCache" Content="Clear Viewer Cache" Height="34" 
+                                Background="#D32F2F" BorderBrush="#E53935" Foreground="White" FontWeight="Bold" 
+                                Cursor="Hand" Click="BtnClearCache_Click"/>
+
+                        <!-- Granular Cache Control Checkboxes -->
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,14">
+                            <CheckBox x:Name="ChkClearBrowser" Content="Clear Web Browser Cache" IsChecked="True" Margin="0,0,15,0" Foreground="White"/>
+                            <CheckBox x:Name="ChkClearTextures" Content="Clear Texture / VFS Cache" IsChecked="True" Foreground="White"/>
+                        </StackPanel>
+
+                        <!-- Process Control & Status Header -->
+                        <TextBlock Text="PROCESS CONTROL &amp; STATUS" FontWeight="Bold" FontSize="12" Foreground="#858585" Margin="0,0,0,6"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <TextBlock Text="Status: " Foreground="White" FontWeight="Bold"/>
+                            <TextBlock x:Name="TxtStatus" Text="Not Running" Foreground="#FF5555" FontWeight="Bold" Margin="0,0,12,0"/>
+                            <TextBlock x:Name="TxtRamPid" Text="RAM: -- | PID: --" Foreground="#AAAAAA"/>
+                        </StackPanel>
+
+                        <!-- Advanced Optimization Toggles -->
+                        <GroupBox Header="Advanced Performance &amp; Memory Toggles" Margin="0,0,0,10" Padding="10" Foreground="White">
+                            <StackPanel>
+                                <CheckBox x:Name="ChkMuteGpu" Content="Mute GPU Background Rendering / Lower Idle Load" IsChecked="True" Foreground="White" Margin="0,0,0,8"/>
+                                <CheckBox x:Name="ChkTextureOptimization" Content="Enable Aggressive Texture VRAM Compression" IsChecked="True" Foreground="White"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!-- Dedicated Log Watcher Warning Status Bar with Dismiss Button -->
+                        <Border x:Name="BorderLogAlert" Background="#2D1215" BorderBrush="#D9534F" BorderThickness="1" CornerRadius="4" Padding="10" Margin="0,0,0,10" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="🚨 Viewer Alert: " FontWeight="Bold" Foreground="#F2DEDE" Margin="0,0,5,0"/>
+                                    <TextBlock x:Name="TxtLogAlertMessage" Foreground="#EBCCD1" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button x:Name="BtnDismissAlert" Content="✕ Dismiss" Grid.Column="1" Click="BtnDismissAlert_Click" 
+                                        Background="Transparent" Foreground="#EBCCD1" BorderBrush="#D9534F" 
+                                        Padding="6,2" Cursor="Hand" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- System Process Priority & Overhead -->
+                        <TextBlock Text="SYSTEM PROCESS PRIORITY &amp; OVERHEAD" FontWeight="Bold" FontSize="12" Foreground="#858585" Margin="0,0,0,8"/>
+                        <CheckBox x:Name="ChkHighPriority" Content="High CPU Priority Class (/HIGH)" IsChecked="True" Margin="0,0,0,6" Foreground="White"/>
+                        <CheckBox x:Name="ChkCoreAffinity" Content="Lock Core Affinity (Excludes Core 0)" IsChecked="True" Margin="0,0,0,12" Foreground="White"/>
+
+                        <!-- SYSTEM METRICS SECTION -->
+                        <TextBlock Text="SYSTEM METRICS" FontWeight="Bold" Margin="0,0,0,6" Foreground="Gray"/>
+
+                        <!-- CPU Load Row -->
+                        <Grid Margin="0,0,0,4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="CPU Load"/>
+                                <TextBlock x:Name="TxtCpuPeak" Text=" (Peak: 0%)" Foreground="Gray" FontSize="11" Margin="6,0,0,0" VerticalAlignment="Bottom"/>
+                            </StackPanel>
+                            <TextBlock x:Name="TxtCpuPercent" Text="0%" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,12,0"/>
+                        </Grid>
+                        <ProgressBar x:Name="PbCpu" Height="8" Margin="0,0,0,10"/>
+
+                        <!-- RAM Usage Row -->
+                        <Grid Margin="0,0,0,4">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="RAM Usage"/>
+                                <TextBlock x:Name="TxtRamPeak" Text=" (Peak: 0%)" Foreground="Gray" FontSize="11" Margin="6,0,0,0" VerticalAlignment="Bottom"/>
+                            </StackPanel>
+                            <TextBlock x:Name="TxtRamPercent" Text="0%" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,12,0"/>
+                        </Grid>
+                        <ProgressBar x:Name="PbRam" Height="8"/>
+
+                        <!-- CONSOLE 1: DEDICATED CPU & RAM TELEMETRY LOG -->
+                        <Border Background="#181820" BorderBrush="#2D2D3D" BorderThickness="1" CornerRadius="6" Margin="0,8,0,4" Padding="8">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="📊 CPU &amp; RAM Live Telemetry Log" Foreground="#A0A0B0" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                                <TextBox x:Name="TxtMetricsLog" 
+                                         Grid.Row="1"
+                                         Background="#111116"
+                                         Foreground="#22C55E"
+                                         BorderBrush="#252535"
+                                         BorderThickness="1"
+                                         IsReadOnly="True"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         VerticalScrollBarVisibility="Auto"
+                                         FontFamily="Consolas"
+                                         FontSize="10"
+                                         Padding="5"
+                                         Height="90"/>
+                            </Grid>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <!-- ================= ROW 5: LAUNCH BUTTON ================= -->
+        <Button x:Name="BtnLaunch" Grid.Row="5" Height="40" Margin="0,0,0,10" Background="#388E3C" BorderBrush="#4CAF50" Click="BtnLaunch_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="▶  LAUNCH OPTIMIZED VIEWER" FontWeight="Bold" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
+                <TextBlock Text="  (Apply &amp; Boot)" FontSize="12" Foreground="#C8E6C9" VerticalAlignment="Center" Margin="5,1,0,0"/>
+            </StackPanel>
+        </Button>
+
+        <!-- ================= ROW 6: GENERAL EVENT LOG CONSOLE ================= -->
+        <Border Grid.Row="6" Background="#252526" BorderBrush="#333337" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0" Margin="0,0,0,6">
+                    <TextBlock Text="🖥️ Event Log Console (General)" Foreground="#007ACC" FontSize="12" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <Button x:Name="BtnExportLogs" Content="Export Logs" Click="BtnExportLogs_Click" DockPanel.Dock="Right" Background="#2D2D30" Foreground="White" BorderBrush="#3F3F46" FontSize="11" Padding="8,2" Cursor="Hand"/>
+                </DockPanel>
+
+                <TextBox x:Name="TxtLog" 
+                         Grid.Row="1"
+                         Background="#1E1E1E"
+                         Foreground="#00FF88"
+                         BorderBrush="#333337"
+                         BorderThickness="1"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         FontFamily="Consolas"
+                         FontSize="11"
+                         Padding="6"
+                         Height="110"/>
+            </Grid>
+        </Border>
+
+        <!-- ================= ROW 7: PASSIVE CRASH OBSERVER FOOTER ================= -->
+        <Border Grid.Row="7" Background="#181818" CornerRadius="4" Padding="8" BorderBrush="#333337" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="PASSIVE CRASH OBSERVER: Active" FontWeight="Bold" Foreground="#4EC9B0" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="TxtLogStatus" Grid.Column="1" Text="[🟢] Log Reader Idle — Waiting for process exit" Foreground="#858585" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>
