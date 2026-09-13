@@ -31,7 +31,17 @@
 
 ## 📖 Overview
 
-**VeloxOptiSL** is a production-grade, performance-focused Windows Presentation Foundation (WPF) desktop utility engineered with a heavy focus on stability, fault tolerance, and clean architecture. Designed specifically to optimize and elevate the *Second Life* experience across a wide spectrum of hardware, it bridges modern .NET capabilities with lightweight deployment. While primarily built to empower users on low-end and mid-end PCs—spanning both desktops and laptops—with smoother execution and better resource handling, it also delivers valuable stability and performance benefits for high-end systems, ensuring a seamless, protected, and enhanced experience for all *Second Life* users while guarding against common runtime failures and multi-instance resource contention.
+VeloxOptiSL is a production-grade, performance-focused Windows Presentation Foundation (WPF) desktop utility engineered with a heavy focus on stability, fault tolerance, and clean architecture. Designed specifically to optimize and elevate the Second Life experience across a wide spectrum of hardware, it bridges modern .NET capabilities with lightweight deployment.
+
+While primarily built to empower users on low-end and mid-end PCs—spanning both desktops and laptops—with smoother execution and better resource handling, it also delivers valuable stability and performance benefits for high-end systems.
+
+This ensures a seamless, protected, and enhanced experience for all Second Life users while guarding against common runtime failures and multi-instance resource contention through several key design principles:
+
+* Hardware-Agnostic Scaling: Tailored performance tuning that adapts seamlessly whether you are running on a budget laptop or an enthusiast desktop rig.
+
+* Proactive Resource Management: Intelligent handling of memory footprints and CPU allocation to prevent stuttering during heavy region crossings.
+
+* Fault-Tolerant Execution: Built-in safeguards to neutralize runtime exceptions, path mismatches, and overlapping viewer instances before they impact your session.
 
 ---
 
