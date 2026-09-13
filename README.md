@@ -108,11 +108,13 @@ VeloxOptiSL incorporates enterprise-level hardening measures directly into its a
 ---
 
 ## 🗺️ Development Roadmap & Future Plans
+Because VeloxOptiSL is actively evolving, the project will be developing significantly over time—continuously improving current features and exploring new additions designed to benefit every Second Life user, whether they are on a low-end, mid-end, or high-end system. Upcoming milestones include:
 
-Because this project is actively evolving, upcoming milestones include:
-* Expanded configuration options and fine-tuning controls.
-* Enhanced UI telemetry and real-time status indicators.
-* Future developer documentation and contribution guides as the codebase matures.
+* **Feature Refinement & Expansion**: Ongoing optimization of core performance tools to ensure smoother execution across all hardware tiers.
+
+* **New Capability Integration**: Researching and rolling out additional user-requested tools to maximize utility and stability.
+
+* **Open-Source Growth**: Developer documentation and contribution guides for anyone interested in exploring or contributing to the codebase as it matures.
 
 ---
 
