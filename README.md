@@ -22,7 +22,7 @@
 
 <p align="center">
   <!-- Replace the link below with your actual screenshot file path once uploaded to your repository, e.g., screenshots/launcher-main.png -->
-  <img src="screenshots/launcher-main.png" alt="VeloxOptiSL Launcher Interface" width="800px" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+  <img src="https://i.gyazo.com/997ac21b8c6fd97fc2a5500be16a0121.png" alt="VeloxOptiSL Launcher Interface" width="800px" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
 </p>
 
 *(Note: Additional UI screenshots and feature walkthroughs will be added here as the layout evolves.)*
